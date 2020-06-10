@@ -1,0 +1,939 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Anomaly detection methods for Python." name="description"/>
+<link href="https://www.gaussalgo.com/reference/loda/" rel="canonical"/>
+<link href="../../assets/images/favicon.png" rel="shortcut icon"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-5.2.3" name="generator"/>
+<title>anlearn.loda - anlearn - Anomaly learn</title>
+<link href="../../assets/stylesheets/main.6e35a1a6.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.a46bcfb3.min.css" rel="stylesheet"/>
+<meta content="#00bcd4" name="theme-color"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
+<style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+<link href="../../css/custom.css" rel="stylesheet"/>
+</head>
+<body data-md-color-accent="cyan" data-md-color-primary="cyan" data-md-color-scheme="" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#anlearn.loda">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header-nav md-grid">
+<a aria-label="anlearn - Anomaly learn" class="md-header-nav__button md-logo" href="https://www.gaussalgo.com/" title="anlearn - Anomaly learn">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+<label class="md-header-nav__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+</label>
+<div class="md-header-nav__title" data-md-component="header-title">
+<div class="md-header-nav__ellipsis">
+<span class="md-header-nav__topic md-ellipsis">
+            anlearn - Anomaly learn
+          </span>
+<span class="md-header-nav__topic md-ellipsis">
+            
+              anlearn.loda
+            
+          </span>
+</div>
+</div>
+<label class="md-header-nav__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" data-md-state="active" name="query" placeholder="Search" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</label>
+<button aria-label="Clear" class="md-search__icon md-icon" data-md-component="search-reset" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+</button>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header-nav__source">
+<a class="md-source" href="https://github.com/gaussalgo/anlearn/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    gaussalgo/anlearn
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="anlearn - Anomaly learn" class="md-nav__button md-logo" href="https://www.gaussalgo.com/" title="anlearn - Anomaly learn">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+    anlearn - Anomaly learn
+  </label>
+<div class="md-nav__source">
+<a class="md-source" href="https://github.com/gaussalgo/anlearn/" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    gaussalgo/anlearn
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../.." title="Home">
+      Home
+    </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" id="nav-2" type="checkbox"/>
+<label class="md-nav__link" for="nav-2">
+      Anomaly detection methods
+      <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"></path></svg>
+</span>
+</label>
+<nav aria-label="Anomaly detection methods" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-2">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+        Anomaly detection methods
+      </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../loda/" title="Loda: Lightweight on-line detector of anomalies">
+      Loda: Lightweight on-line detector of anomalies
+    </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../dev-guide/" title="Developers Guide">
+      Developers Guide
+    </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../jupyter-notebooks/" title="Jupyter notebooks">
+      Jupyter notebooks
+    </a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-5" id="nav-5" type="checkbox"/>
+<label class="md-nav__link" for="nav-5">
+      API reference
+      <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"></path></svg>
+</span>
+</label>
+<nav aria-label="API reference" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="nav-5">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+        API reference
+      </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+        anlearn.loda
+        <span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"></path></svg>
+</span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./" title="anlearn.loda">
+      anlearn.loda
+    </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda">
+    anlearn.loda
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda.LODA">
+    LODA
+  </a>
+<nav aria-label="LODA" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda.LODA.__init__">
+    __init__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda.LODA.fit">
+    fit()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda.LODA.predict">
+    predict()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda.LODA.score_samples">
+    score_samples()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../stats/" title="anlearn.stats">
+      anlearn.stats
+    </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda">
+    anlearn.loda
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda.LODA">
+    LODA
+  </a>
+<nav aria-label="LODA" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda.LODA.__init__">
+    __init__()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda.LODA.fit">
+    fit()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda.LODA.predict">
+    predict()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#anlearn.loda.LODA.score_samples">
+    score_samples()
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/gaussalgo/anlearn/edit/master/docs/reference/loda.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"></path></svg>
+</a>
+<h1>anlearn.loda</h1>
+<div class="doc doc-object doc-module">
+<h2 class="hidden-toc" href="#anlearn.loda" id="anlearn.loda" style="visibility: hidden; width: 0; height: 0;">
+</h2>
+<div class="doc doc-contents first">
+<div class="doc doc-children">
+<div class="doc doc-object doc-class">
+<h2 class="doc doc-heading" id="anlearn.loda.LODA">
+<code>LODA</code>
+</h2>
+<div class="doc doc-contents">
+<p>LODA: Lightweight on-line detector of anomalies</p>
+<div class="doc doc-children">
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="anlearn.loda.LODA.__init__">
+<code class="highlight language-python">
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> </code>
+<span class="doc doc-properties">
+<small class="doc doc-property doc-property-special"><code>special</code></small>
+</span>
+</h3>
+<div class="doc doc-contents">
+<p>LODA: Lightweight on-line detector of anomalies [1]</p>
+<p>LODA is an ensemble of histograms on random projections.
+See Pevný, T. Loda [1] for more details.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>n_estimators</code></td>
+<td><code>int</code></td>
+<td>
+<p>number of histograms. Defaults to 1000.</p>
+</td>
+<td><code>1000</code></td>
+</tr>
+<tr>
+<td><code>bins</code></td>
+<td><code>Union[int, str]</code></td>
+<td>
+<ul>
+<li><code>int</code> - number of equal-width bins in the given range.</li>
+<li><code>str</code> - method used to calculate bin width (<code>numpy.histogram_bin_edges</code>).
+    See <code>numpy.histogram</code> bins for more details. Defaults to "auto".</li>
+</ul>
+</td>
+<td><code>'auto'</code></td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td><code>float</code></td>
+<td>
+<p>Quantile for compution threshold from training data scores.
+This threshold is used for <code>predict</code> method.
+Defaults to 0.05.</p>
+</td>
+<td><code>0.05</code></td>
+</tr>
+<tr>
+<td><code>random_state</code></td>
+<td><code>Optional[int]</code></td>
+<td>
+<p>Random seed used for stochastic parts. Defaults to None.</p>
+</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>n_jobs</code></td>
+<td><code>Optional[int]</code></td>
+<td>
+<p>Not implemented yet. Defaults to None.</p>
+</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>verbose</code></td>
+<td><code>int</code></td>
+<td>
+<p>Verbosity of logging. Defaults to 0.</p>
+</td>
+<td><code>0</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition attributes">
+<p class="admonition-title">Attributes</p>
+<ul>
+<li>projections_ (numpy.ndarray, shape (n_estimators, n_features)) : Random projections</li>
+<li>hists_ (List[scipy.stats.rv_histogram], shape (n_estimators,)) : Histograms</li>
+<li>anom_threshold_ (float) : Treshold for <code>predict</code> function.</li>
+</ul>
+</div>
+<div class="admonition references">
+<p class="admonition-title">References</p>
+<ol>
+<li>Pevný, T. Loda: Lightweight on-line detector of anomalies. Mach Learn 102, 275–304 (2016).
+<a href="https://doi.org/10.1007/s10994-015-5521-0">https://doi.org/10.1007/s10994-015-5521-0</a></li>
+</ol>
+</div>
+<details class="quote">
+<summary>Source code in <code>anlearn/loda.py</code></summary>
+<table class="highlighttable">
+<tr>
+<td class="linenos">
+<div class="linenodiv">
+<pre><span></span>39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84</pre>
+</div>
+</td>
+<td class="code">
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">n_estimators</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">bins</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"auto"</span><span class="p">,</span>
+    <span class="n">q</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">"""LODA: Lightweight on-line detector of anomalies [1]</span>
+
+<span class="sd">    LODA is an ensemble of histograms on random projections.</span>
+<span class="sd">    See Pevný, T. Loda [1] for more details.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        n_estimators (int, optional): number of histograms. Defaults to 1000.</span>
+<span class="sd">        bins (Union[int, str], optional):</span>
+<span class="sd">            * `int` - number of equal-width bins in the given range.</span>
+<span class="sd">            * `str` - method used to calculate bin width (`numpy.histogram_bin_edges`).</span>
+<span class="sd">                See `numpy.histogram` bins for more details. Defaults to "auto".</span>
+<span class="sd">        q (float, optional):</span>
+<span class="sd">            Quantile for compution threshold from training data scores.</span>
+<span class="sd">            This threshold is used for ``predict`` method.</span>
+<span class="sd">            Defaults to 0.05.</span>
+<span class="sd">        random_state (Optional[int], optional):</span>
+<span class="sd">            Random seed used for stochastic parts. Defaults to None.</span>
+<span class="sd">        n_jobs (Optional[int], optional): Not implemented yet. Defaults to None.</span>
+<span class="sd">        verbose (int, optional): Verbosity of logging. Defaults to 0.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        * projections_ (numpy.ndarray, shape (n_estimators, n_features)) : Random projections</span>
+<span class="sd">        * hists_ (List[scipy.stats.rv_histogram], shape (n_estimators,)) : Histograms</span>
+<span class="sd">        * anom_threshold_ (float) : Treshold for `predict` function.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        1. Pevný, T. Loda: Lightweight on-line detector of anomalies. Mach Learn 102, 275–304 (2016).</span>
+<span class="sd">        &lt;https://doi.org/10.1007/s10994-015-5521-0&gt;</span>
+<span class="sd">    """</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">n_estimators</span> <span class="o">=</span> <span class="n">n_estimators</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">q</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>  <span class="c1"># TODO</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_validate</span><span class="p">()</span>
+</code></pre>
+</div>
+</td>
+</tr>
+</table>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="anlearn.loda.LODA.fit">
+<code class="highlight language-python">
+fit<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Fit estimator</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X</code></td>
+<td><code>~ArrayLike</code></td>
+<td>
+<p>shape (n_samples, n_features). Input data</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>y</code></td>
+<td><code>Optional[~ArrayLike]</code></td>
+<td>
+<p>ignored.
+Present for API consistency by convention. Defaults to None.</p>
+</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LODA</code></td>
+<td>
+<p>LODA: [description]</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>anlearn/loda.py</code></summary>
+<table class="highlighttable">
+<tr>
+<td class="linenos">
+<div class="linenodiv">
+<pre><span></span>111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145</pre>
+</div>
+</td>
+<td class="code">
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"LODA"</span><span class="p">:</span>
+    <span class="sd">"""Fit estimator</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        X (ArrayLike): shape (n_samples, n_features). Input data</span>
+<span class="sd">        y (Optional[ArrayLike], optional): ignored.</span>
+<span class="sd">            Present for API consistency by convention. Defaults to None.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        LODA: [description]</span>
+<span class="sd">    """</span>
+    <span class="n">raw_data</span> <span class="o">=</span> <span class="n">check_array</span><span class="p">(</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">accept_sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"numeric"</span><span class="p">,</span> <span class="n">force_all_finite</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span> <span class="o">=</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_init_projections</span><span class="p">()</span>
+
+    <span class="n">w_X</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">projections_</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">hists_</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">X_prob</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">w_x</span> <span class="ow">in</span> <span class="n">w_X</span><span class="o">.</span><span class="n">T</span><span class="p">:</span>
+        <span class="n">new_hist</span> <span class="o">=</span> <span class="n">HistPdf</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span> <span class="n">return_min</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">w_x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hists_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_hist</span><span class="p">)</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="n">new_hist</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">w_x</span><span class="p">)</span>
+        <span class="n">X_prob</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+
+    <span class="n">X_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">X_prob</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">anom_threshold_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X_scores</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre>
+</div>
+</td>
+</tr>
+</table>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="anlearn.loda.LODA.predict">
+<code class="highlight language-python">
+predict<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Predict if samples are outliers or not</p>
+<p>Samples with a score lower than <code>anom_threshold_</code> are considered
+to be  outliers.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X</code></td>
+<td><code>~ArrayLike</code></td>
+<td>
+<p>hape (n_samples, n_features). Input data</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ndarray</code></td>
+<td>
+<p>np.ndarray: shape  (n_samples,) 1 for inlineres, -1 for outliers</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>anlearn/loda.py</code></summary>
+<table class="highlighttable">
+<tr>
+<td class="linenos">
+<div class="linenodiv">
+<pre><span></span>171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187</pre>
+</div>
+</td>
+<td class="code">
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">"""Predict if samples are outliers or not</span>
+
+<span class="sd">    Samples with a score lower than ``anom_threshold_`` are considered</span>
+<span class="sd">    to be  outliers.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        X (ArrayLike): hape (n_samples, n_features). Input data</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray: shape  (n_samples,) 1 for inlineres, -1 for outliers</span>
+<span class="sd">    """</span>
+    <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="p">[</span><span class="s2">"anom_threshold_"</span><span class="p">])</span>
+
+    <span class="n">scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">score_samples</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">scores</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">anom_threshold_</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre>
+</div>
+</td>
+</tr>
+</table>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="anlearn.loda.LODA.score_samples">
+<code class="highlight language-python">
+score_samples<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span> </code>
+</h3>
+<div class="doc doc-contents">
+<p>Anomaly scores for samples</p>
+<p>Average of the logarithm probabilities estimated of individual projections.
+Output is proportional to the negative log-likelihood of the sample, that
+means the less likely a sample is, the higher the anomaly value it receives[1]_.
+This score is reversed for Scikit learn compatibility.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X</code></td>
+<td><code>~ArrayLike</code></td>
+<td>
+<p>shape (n_samples, n_features). Input data</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ndarray</code></td>
+<td>
+<p>np.ndarray: shape (n_samples,)
+The anomaly score of the input samples. The lower, the more abnormal.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>anlearn/loda.py</code></summary>
+<table class="highlighttable">
+<tr>
+<td class="linenos">
+<div class="linenodiv">
+<pre><span></span>147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169</pre>
+</div>
+</td>
+<td class="code">
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">score_samples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">"""Anomaly scores for samples</span>
+
+<span class="sd">    Average of the logarithm probabilities estimated of individual projections.</span>
+<span class="sd">    Output is proportional to the negative log-likelihood of the sample, that</span>
+<span class="sd">    means the less likely a sample is, the higher the anomaly value it receives[1]_.</span>
+<span class="sd">    This score is reversed for Scikit learn compatibility.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        X (ArrayLike): shape (n_samples, n_features). Input data</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray: shape (n_samples,)</span>
+<span class="sd">        The anomaly score of the input samples. The lower, the more abnormal.</span>
+<span class="sd">    """</span>
+    <span class="n">check_is_fitted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes</span><span class="o">=</span><span class="p">[</span><span class="s2">"projections_"</span><span class="p">,</span> <span class="s2">"hists_"</span><span class="p">])</span>
+
+    <span class="n">w_X</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">projections_</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">X_prob</span> <span class="o">=</span> <span class="p">[</span><span class="n">hist</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">w_x</span><span class="p">)</span> <span class="k">for</span> <span class="n">hist</span><span class="p">,</span> <span class="n">w_x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hists_</span><span class="p">,</span> <span class="n">w_X</span><span class="o">.</span><span class="n">T</span><span class="p">)]</span>
+
+    <span class="n">X_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">X_prob</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">X_scores</span>
+</code></pre>
+</div>
+</td>
+</tr>
+</table>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-nav">
+<nav aria-label="Footer" class="md-footer-nav__inner md-grid">
+<a class="md-footer-nav__link md-footer-nav__link--prev" href="../../jupyter-notebooks/" rel="prev" title="Jupyter notebooks">
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</div>
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Jupyter notebooks
+              </div>
+</div>
+</a>
+<a class="md-footer-nav__link md-footer-nav__link--next" href="../stats/" rel="next" title="anlearn.stats">
+<div class="md-footer-nav__title">
+<div class="md-ellipsis">
+<span class="md-footer-nav__direction">
+                  Next
+                </span>
+                anlearn.stats
+              </div>
+</div>
+<div class="md-footer-nav__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"></path></svg>
+</div>
+</a>
+</nav>
+</div>
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-footer-copyright">
+<div class="md-footer-copyright__highlight">
+<a href="https://www.gaussalgo.com/">Copyright (c) Gauss Algoritmic a.s.</a>
+</div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+          Material for MkDocs
+        </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<script src="../../assets/javascripts/vendor.d710d30a.min.js"></script>
+<script src="../../assets/javascripts/bundle.a45f732b.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+<script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.c03f0417.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+<script src="../../js/mathjax-config.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+black
+flake8
+mypy
+isort
+pre-commit
+pip-tools
+pytest
+pytest-cov
+mkdocs-material
+mkdocstrings
+pymdown-extensions
+mdx_truly_sane_lists

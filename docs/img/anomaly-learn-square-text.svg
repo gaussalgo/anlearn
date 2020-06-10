@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="67mm"
+   height="67mm"
+   viewBox="0 0 67.000003 67"
+   version="1.1"
+   id="svg5055"
+   sodipodi:docname="anomaly-learn-square-text.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:export-filename="/home/ondrej/gauss/anlearn/docs/img/anomaly-learn-square-text.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs5049">
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4964"
+       id="linearGradient4966"
+       x1="52.652081"
+       y1="120.25833"
+       x2="153.19374"
+       y2="120.25833"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       id="linearGradient4964"
+       inkscape:collect="always">
+      <stop
+         id="stop4968"
+         offset="0"
+         style="stop-color:#27bfb4;stop-opacity:1;" />
+      <stop
+         id="stop4970"
+         offset="1"
+         style="stop-color:#27bfb4;stop-opacity:0;" />
+    </linearGradient>
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect4546"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="-47.923838"
+     inkscape:cy="139.46426"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1021"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5052">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-50.604134,-159.69643)">
+    <g
+       id="g5671"
+       transform="translate(0.28791366,-1.7499964)">
+      <circle
+         r="31.75"
+         cy="194.94643"
+         cx="82.354134"
+         id="path839"
+         style="fill:#fb6363;fill-opacity:1;stroke:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" />
+      <path
+         transform="translate(32.34789,89.051199)"
+         sodipodi:nodetypes="ccccccccc"
+         inkscape:original-d="m 80.697917,132.95834 c 0,0 2.65e-4,-2.6e-4 0,0 -3.527556,-2.7e-4 -7.055277,-2.7e-4 -10.583334,0 -1.763634,-7.05586 -3.527507,-14.11135 -5.291669,-21.16668 -2.645581,-1.76416 -5.291237,-3.52793 -7.9375,-5.29166 -2.204735,1.76373 -4.409402,3.52746 -6.614584,5.29166 -1.322684,7.05548 -2.64558,14.11093 -3.968747,21.16668 -3.527471,-2.7e-4 -7.055114,-2.7e-4 -10.583333,0 -4.409679,-2.7e-4 -8.819182,-2.7e-4 -13.22917,-1e-5"
+         inkscape:path-effect="#path-effect4546"
+         inkscape:connector-curvature="0"
+         id="path4544"
+         d="m 80.697917,132.95834 c 0,0 0,0 -1.763778,0 -1.763778,0 -5.291499,0 -7.9375,-3.52789 -2.646001,-3.52789 -4.409873,-10.58338 -6.614692,-14.99301 -2.204818,-4.40963 -4.850475,-6.1734 -7.275858,-6.17354 -2.425383,-1.4e-4 -4.630049,1.76359 -6.394101,6.1734 -1.764051,4.4098 -3.086946,11.46525 -5.512161,14.99315 -2.425215,3.52789 -5.952858,3.52789 -9.921807,3.52789 -3.968949,0 -8.378452,-1e-5 -12.78844,-1e-5"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:url(#linearGradient4966);stroke-width:7.96500015;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:3.79999995;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot815"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:0.89999998;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(0.18512713,0,0,0.16540129,47.280588,167.52984)"><flowRegion
+         id="flowRegion817"
+         style="line-height:0.89999998;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"><rect
+           id="rect819"
+           width="507.14288"
+           height="160.00002"
+           x="37.142857"
+           y="71.09111"
+           style="line-height:0.89999998;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /></flowRegion><flowPara
+         id="flowPara823"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:85.33333588px;line-height:0.89999998;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#27bfb4;fill-opacity:1;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">anlearn</flowPara></flowRoot>  </g>
+</svg>

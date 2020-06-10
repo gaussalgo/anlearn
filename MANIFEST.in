@@ -1,0 +1,14 @@
+recursive-include tests *.py
+exclude .gitignore
+exclude .envrc
+exclude .gitattributes
+exclude mkdocs.yml
+exclude shell.nix
+exclude .pre-commit-config.yaml
+exclude requirements/requirements-notebook.txt
+recursive-exclude nix *
+recursive-exclude docs *
+recursive-exclude notebooks *
+recursive-exclude .github *
+recursive-exclude scripts *
+recursive-exclude requirements *.in

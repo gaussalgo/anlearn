@@ -1,0 +1,165 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build_package:
+    name: Build Package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-3.8
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Upgrade pip
+        run: pip install --upgrade pip wheel setuptools
+      - name: Build package
+        run: |
+          python3 setup.py sdist
+          python3 setup.py bdist_wheel
+          mv .version dist
+      - name: Store build
+        uses: actions/upload-artifact@v2
+        with:
+          name: anlearn-build
+          path: dist
+  syntax_check:
+    name: Code Check (black, isort, mypy)
+    runs-on: ubuntu-latest
+    needs: build_package
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-3.8
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Upgrade pip
+        run: pip install --upgrade pip wheel setuptools
+      - name: Install dependencies
+        run: pip install -r requirements/requirements-3.8-dev.txt
+      - name: black
+        run: make black-check
+      # - name: isort
+      #   run: make isort-check
+      - name: flake8
+        run: make flake8
+      - name: mypy
+        run: make mypy
+  tests:
+    name: pytest
+    runs-on: ubuntu-latest
+    needs: build_package
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
+      fail-fast: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download build
+        uses: actions/download-artifact@v2
+        with:
+          name: anlearn-build
+          path: dist/
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Upgrade pip
+        run: |
+          python -VV
+          pip install --upgrade pip wheel setuptools
+      - name: Install dependencies
+        run: |
+          PYTHON_VERSION=$(python -c 'import sys; print(*sys.version_info[:2], sep=".")')
+          PACKAGE_VERSION=$(cat dist/.version)
+          pip install -r "requirements/requirements-${PYTHON_VERSION}.txt"
+          pip install "dist/anlearn-${PACKAGE_VERSION}.tar.gz"
+          pip install -r "requirements/requirements-${PYTHON_VERSION}-dev.txt"
+      - name: Run tests
+        run: make pytest
+  pages:
+    name: Github pages
+    needs: [syntax_check, tests, build_package]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download build
+        uses: actions/download-artifact@v2
+        with:
+          name: anlearn-build
+          path: dist/
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-3.8
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Upgrade pip
+        run: pip install --upgrade pip wheel setuptools
+      - name: Install dependencies
+        run: |
+          PYTHON_VERSION=$(python -c 'import sys; print(*sys.version_info[:2], sep=".")')
+          PACKAGE_VERSION=$(cat dist/.version)
+          pip install -r "requirements/requirements-${PYTHON_VERSION}.txt"
+          pip install "dist/anlearn-${PACKAGE_VERSION}.tar.gz"
+          pip install -r "requirements/requirements-${PYTHON_VERSION}-dev.txt"
+      - name: Build pages
+        run: make docs
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.5.5
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: site
+  publish_package:
+    name: Publish package to PyPI
+    runs-on: ubuntu-latest
+    needs: [syntax_check, tests, build_package]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download build
+        uses: actions/download-artifact@v2
+        with:
+          name: anlearn-build
+          path: dist/
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - name: Publish distribution 📦 to Test PyPI
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ secrets.test_pypi_password }}
+          repository_url: https://test.pypi.org/legacy/
+      # - name: Publish distribution 📦 to PyPI
+      #   if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+      #   uses: pypa/gh-action-pypi-publish@master
+      #   with:
+      #     password: ${{ secrets.pypi_password }}

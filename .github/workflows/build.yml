@@ -133,6 +133,7 @@ jobs:
       - name: Build pages
         run: make docs
       - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
         uses: JamesIves/github-pages-deploy-action@3.5.5
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -158,8 +159,8 @@ jobs:
         with:
           password: ${{ secrets.test_pypi_password }}
           repository_url: https://test.pypi.org/legacy/
-      # - name: Publish distribution 📦 to PyPI
-      #   if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
-      #   uses: pypa/gh-action-pypi-publish@master
-      #   with:
-      #     password: ${{ secrets.pypi_password }}
+      - name: Publish distribution 📦 to PyPI
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          password: ${{ secrets.pypi_password }}

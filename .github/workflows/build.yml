@@ -2,9 +2,14 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
   pull_request:
-    branches: [master]
+    branches:
+      - master
+  release:
+    types:
+      - created
 
 jobs:
   build_package:
@@ -135,7 +140,7 @@ jobs:
       - name: Build pages
         run: make docs
       - name: Deploy to GitHub Pages
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         uses: JamesIves/github-pages-deploy-action@3.5.5
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -162,7 +167,7 @@ jobs:
           password: ${{ secrets.test_pypi_password }}
           repository_url: https://test.pypi.org/legacy/
       - name: Publish distribution 📦 to PyPI
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ secrets.pypi_password }}

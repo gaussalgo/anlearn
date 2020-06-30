@@ -1,6 +1,10 @@
 """
 Comparison of scikit-learn anomaly detection methods and LODA
 =============================================================
+
+This examples is based on scikit-learn comparison of outlier detection methods [2]_.
+
+
 """
 
 # %%
@@ -113,3 +117,12 @@ for i_dataset, X in enumerate(datasets):
             horizontalalignment="right",
         )
         plot_num += 1
+
+
+# %%
+# References
+# ----------
+# .. [1] Pevný, T. Loda: Lightweight on-line detector of anomalies. Mach Learn 102, 275–304 (2016).
+#         <https://doi.org/10.1007/s10994-015-5521-0>
+# .. [2] Sckikit-learn Comparing anomaly detection algorithms for outlier detection on toy datasets
+#        https://scikit-learn.org/stable/auto_examples/miscellaneous/plot_anomaly_comparison.html#sphx-glr-auto-examples-miscellaneous-plot-anomaly-comparison-py

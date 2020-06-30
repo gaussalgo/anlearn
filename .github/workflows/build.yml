@@ -145,7 +145,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: site
+          FOLDER: docs/_build/html
   publish_package:
     name: Publish package to PyPI
     runs-on: ubuntu-latest

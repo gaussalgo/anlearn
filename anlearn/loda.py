@@ -8,33 +8,119 @@ from sklearn.utils.validation import check_is_fitted
 from ._typing import ArrayLike
 
 
-class HistPdf:
+class Histogram:
+    """Histogram model
+
+    Histogram model based on :obj:`scipy.stats.rv_histogram`.
+
+    Parameters
+    ----------
+    bins : Union[int, str], optional
+        * :obj:`int` - number of equal-width bins in the given range.
+        * :obj:`str` - method used to calculate bin width (:obj:`numpy.histogram_bin_edges`).
+
+        See :obj:`numpy.histogram_bin_edges` bins for more details, by default "auto"
+    return_min : bool, optional
+        Return minimal float value instead of 0, by default True
+
+    Attributes
+    ----------
+    hist : numpy.ndarray
+        Value of histogram
+    bin_edges : numpy.ndarray
+        Edges of histogram
+    pdf : numpy.ndarray
+        Probability density function
+    """
+
     def __init__(self, bins: Union[int, str] = "auto", return_min: bool = True) -> None:
         self.bins = bins
         self.return_min = return_min
 
-    def fit(self, X: np.ndarray) -> "HistPdf":
-        self.histogram = np.histogram(X, bins=self.bins)
-        hist, bin_edges = self.histogram
+    def fit(self, X: np.ndarray) -> "Histogram":
+        """Fit estimator
 
-        widths = bin_edges[1:] - bin_edges[:-1]
+        Parameters
+        ----------
+        X : numpy.ndarray
+            Input data, shape (n_samples,)
 
-        pdf = hist / np.sum(hist * widths)
+        Returns
+        -------
+        Histogram
+            Fitted estimator
+        """
+
+        self.hist, self.bin_edges = np.histogram(X, bins=self.bins)
+
+        widths = self.bin_edges[1:] - self.bin_edges[:-1]
+
+        pdf = self.hist / np.sum(self.hist * widths)
 
         self.pdf = np.hstack([0.0, pdf, 0.0])
         if self.return_min:
             self.pdf[self.pdf <= 0] = np.finfo(np.float).eps
-        self.bin_edges = bin_edges
 
         return self
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
+        """Predict probability
+
+        Predict probability of input data X.
+
+        Parameters
+        ----------
+        X : numpy.ndarray
+            Input data, shape (n_samples,)
+
+        Returns
+        -------
+        numpy.ndarray
+            Probability estimated from histogram, shape (n_samples,)
+        """
 
         return self.pdf[np.searchsorted(self.bin_edges, X, side="right")]
 
 
 class LODA(BaseEstimator, OutlierMixin):
-    """LODA: Lightweight on-line detector of anomalies"""
+    """LODA: Lightweight on-line detector of anomalies [1]_
+
+    LODA is an ensemble of histograms on random projections.
+    See Pevný, T. Loda [1]_ for more details.
+
+    Parameters
+    ----------
+    n_estimators : int, optional
+        number of histograms, by default 1000
+    bins : Union[int, str], optional
+        * :obj:`int` - number of equal-width bins in the given range.
+        * :obj:`str` - method used to calculate bin width (:obj:`numpy.histogram_bin_edges`).
+
+        See :obj:`numpy.histogram_bin_edges` bins for more details, by default "auto"
+    q : float, optional
+        Quantile for compution threshold from training data scores.
+        This threshold is used for `predict` method., by default 0.05
+    random_state : Optional[int], optional
+        Random seed used for stochastic parts., by default None
+    n_jobs : Optional[int], optional
+        Not implemented yet, by default None
+    verbose : int, optional
+        Verbosity of logging, by default 0
+
+    Attributes
+    ----------
+    projections_ : numpy.ndarray
+        Random projections, shape (n_estimators, n_features)
+    hists_ : List[Histogram]
+        Histograms on random projections, shape (n_estimators,)
+    anomaly_threshold_ : float
+        Treshold for :meth:`predict` function
+
+    References
+    ----------
+    .. [1] Pevný, T. Loda: Lightweight on-line detector of anomalies. Mach Learn 102, 275–304 (2016).
+           <https://doi.org/10.1007/s10994-015-5521-0>
+    """
 
     def __init__(
         self,
@@ -45,35 +131,7 @@ class LODA(BaseEstimator, OutlierMixin):
         n_jobs: Optional[int] = None,
         verbose: int = 0,
     ) -> None:
-        """LODA: Lightweight on-line detector of anomalies [1]
 
-        LODA is an ensemble of histograms on random projections.
-        See Pevný, T. Loda [1] for more details.
-
-        Arguments:
-            n_estimators (int, optional): number of histograms. Defaults to 1000.
-            bins (Union[int, str], optional):
-                * `int` - number of equal-width bins in the given range.
-                * `str` - method used to calculate bin width (`numpy.histogram_bin_edges`).
-                    See `numpy.histogram` bins for more details. Defaults to "auto".
-            q (float, optional):
-                Quantile for compution threshold from training data scores.
-                This threshold is used for ``predict`` method.
-                Defaults to 0.05.
-            random_state (Optional[int], optional):
-                Random seed used for stochastic parts. Defaults to None.
-            n_jobs (Optional[int], optional): Not implemented yet. Defaults to None.
-            verbose (int, optional): Verbosity of logging. Defaults to 0.
-
-        Attributes:
-            * projections_ (numpy.ndarray, shape (n_estimators, n_features)) : Random projections
-            * hists_ (List[scipy.stats.rv_histogram], shape (n_estimators,)) : Histograms
-            * anom_threshold_ (float) : Treshold for `predict` function.
-
-        References:
-            1. Pevný, T. Loda: Lightweight on-line detector of anomalies. Mach Learn 102, 275–304 (2016).
-            <https://doi.org/10.1007/s10994-015-5521-0>
-        """
         self.n_estimators = n_estimators
         self.bins = bins
         self.q = q
@@ -111,13 +169,17 @@ class LODA(BaseEstimator, OutlierMixin):
     def fit(self, X: ArrayLike, y: Optional[ArrayLike] = None) -> "LODA":
         """Fit estimator
 
-        Args:
-            X (ArrayLike): shape (n_samples, n_features). Input data
-            y (Optional[ArrayLike], optional): ignored.
-                Present for API consistency by convention. Defaults to None.
+        Parameters
+        ----------
+        X : ArrayLike
+            Input data, shape (n_samples, n_features)
+        y : Optional[ArrayLike], optional
+            Present for API consistency by convention, by default None
 
-        Returns:
-            LODA: [description]
+        Returns
+        -------
+        LODA
+            Fitted estimator
         """
         raw_data = check_array(
             X, accept_sparse=False, dtype="numeric", force_all_finite=True
@@ -133,14 +195,14 @@ class LODA(BaseEstimator, OutlierMixin):
         X_prob = []
 
         for w_x in w_X.T:
-            new_hist = HistPdf(bins=self.bins, return_min=True).fit(w_x)
+            new_hist = Histogram(bins=self.bins, return_min=True).fit(w_x)
             self.hists_.append(new_hist)
             prob = new_hist.predict_proba(w_x)
             X_prob.append(prob)
 
         X_scores = np.mean(np.log(X_prob), axis=0)
 
-        self.anom_threshold_ = np.quantile(X_scores, self.q)
+        self.anomaly_threshold_ = np.quantile(X_scores, self.q)
 
         return self
 
@@ -149,14 +211,19 @@ class LODA(BaseEstimator, OutlierMixin):
 
         Average of the logarithm probabilities estimated of individual projections.
         Output is proportional to the negative log-likelihood of the sample, that
-        means the less likely a sample is, the higher the anomaly value it receives[1]_.
-        This score is reversed for Scikit learn compatibility.
+        means the less likely a sample is, the higher the anomaly value it receives [1]_.
+        This score is reversed for scikit-learn compatibility.
 
-        Args:
-            X (ArrayLike): shape (n_samples, n_features). Input data
-        Returns:
-            np.ndarray: shape (n_samples,)
+        Parameters
+        ----------
+        X : ArrayLike
+            Input data, shape (n_samples, n_features)
+
+        Returns
+        -------
+        numpy.ndarray
             The anomaly score of the input samples. The lower, the more abnormal.
+            Shape (n_samples,)
         """
         check_is_fitted(self, attributes=["projections_", "hists_"])
 
@@ -171,17 +238,21 @@ class LODA(BaseEstimator, OutlierMixin):
     def predict(self, X: ArrayLike) -> np.ndarray:
         """Predict if samples are outliers or not
 
-        Samples with a score lower than ``anom_threshold_`` are considered
+        Samples with a score lower than :attr:`anomaly_threshold_` are considered
         to be  outliers.
 
-        Args:
-            X (ArrayLike): hape (n_samples, n_features). Input data
+        Parameters
+        ----------
+        X : ArrayLike
+            Input data, shape (n_samples, n_features)
 
-        Returns:
-            np.ndarray: shape  (n_samples,) 1 for inlineres, -1 for outliers
+        Returns
+        -------
+        numpy.ndarray
+            1 for inlineres, -1 for outliers, shape (n_samples,)
         """
-        check_is_fitted(self, attributes=["anom_threshold_"])
+        check_is_fitted(self, attributes=["anomaly_threshold_"])
 
         scores = self.score_samples(X)
 
-        return np.where(scores < self.anom_threshold_, -1, 1)
+        return np.where(scores < self.anomaly_threshold_, -1, 1)

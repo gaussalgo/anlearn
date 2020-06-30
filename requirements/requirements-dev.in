@@ -6,7 +6,8 @@ pre-commit
 pip-tools
 pytest
 pytest-cov
-mkdocs-material
-mkdocstrings
-pymdown-extensions
-mdx_truly_sane_lists
+sphinx
+sphinx-rtd-theme
+sphinx_gallery
+matplotlib
+pillow

@@ -1,6 +1,6 @@
 import numpy as np
 
-from anlearn import LODA
+from anlearn.loda import LODA
 
 
 def test_loda() -> None:

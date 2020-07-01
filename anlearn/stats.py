@@ -10,6 +10,41 @@ from ._typing import ArrayLike
 
 class IQR(BaseEstimator, OutlierMixin):
     """Interquartile range
+
+    Outlier deteciton method using Tukey's fences.
+    If lower quantile is 0.25 (:math:`Q_1` lower quartile) and
+    upper quantile is 0.75 (:math:`Q_3` upper quartile),
+    then outlier is any observation outside the range:
+
+    .. math::
+        [Q_1 - k(Q_3 - Q_1); Q_3 + k(Q_3 - Q_1)]
+
+    John Tukey proposed :math:`k=1.5` is an outlier, and :math:`k=3` is far out.
+
+    Parameters
+    ----------
+    k : float, optional
+        Outlier threshold, by default 1.5
+    lower_quantile : float, optional
+        Lower quantile, from (0; 1), by default 0.25
+    upper_quantile : float, optional
+        Upper quantile, from (0; 1), by default 0.75
+    ensure_2d : bool, optional
+        Frobid input 1D arrays, by default True
+
+    Attributes
+    ----------
+    lqv_ : float
+        Lower quantile value estimated from the input data
+    uqv_ : float
+        Upper quantile value estimated from the input data
+    iqr_ : float
+        Interquartile range, :attr:`uqv_` - :attr:`lqv_`
+
+    Raises
+    ------
+    ValueError
+        Lower quantile must be lower than upper quantile.
     """
 
     def __init__(
@@ -19,31 +54,7 @@ class IQR(BaseEstimator, OutlierMixin):
         upper_quantile: float = 0.75,
         ensure_2d: bool = True,
     ) -> None:
-        """Interquartile range
 
-        Outlier deteciton method using Tukey's fences.
-        If lower quantile is 0.25 ($Q_1$ lower quartile) and
-        upper quantile is 0.75 ($Q_3$ upper quartile),
-        then outlier is any observation outside the range:
-
-        * $[Q_1 - k(Q_3 - Q_1); Q_3 + k(Q_3 - Q_1)]$
-
-        John Tukey proposed $k=1.5$ is an outlier, and $k=3$ is far out.
-
-        Args:
-            k (float, optional): Outlier threshold. Defaults to 1.5.
-            lower_quantile (float, optional): Lower quantile, from (0; 1). Defaults to 0.25.
-            upper_quantile (float, optional): Upper quantile, from (0; 1). Defaults to 0.75.
-            ensure_2d (bool, optional): Frobid input 1D arrays. Defaults to True.
-
-        Attrubutes:
-            * lqv_ (float) : Lower quantile value estimated from the input data
-            * uqv_ (float) : Upper quantile value estimated from the input data
-            * iqr_ (float) : Interquartile range, `uqv_ - `lgv_
-
-        Raises:
-            ValueError: IQR: Lower quantile must be lower than upper quantile.
-        """
         self.k = k
         self.ensure_2d = ensure_2d
         self.lower_quantile = lower_quantile
@@ -55,14 +66,17 @@ class IQR(BaseEstimator, OutlierMixin):
     def fit(self, X: ArrayLike, y: Optional[ArrayLike] = None) -> "IQR":
         """Fit estimator
 
-        Args:
-            X (ArrayLike, optional): shape (n_samples, 1) or (n_samples,)
-                if `ensure_2d` is False
-            y (ArrayLike, optional) : ignored.
-                Present for API consistency by convention.
+        Parameters
+        ----------
+        X : ArrayLike
+            Input data of shape (n_samples, 1) or (n_samples,) if `ensure_2d` is False
+        y : Optional[ArrayLike], optional
+            Ignored, present for API consistency by convention, by default None
 
-        Returns:
-            IQR: Fitted estimator
+        Returns
+        -------
+        IQR
+            Fitted estimator
         """
         raw_data = check_array(
             X, force_all_finite=True, ensure_2d=self.ensure_2d
@@ -76,19 +90,21 @@ class IQR(BaseEstimator, OutlierMixin):
     def score_samples(self, X: ArrayLike) -> np.ndarray:
         """Score samples
 
-        Score is comuputed as distance from interval $[Q_{lower}; Q_{upper}]$ divided
-        by interquartile range. $score = distance(data, (lqv, uqv)) / iqr$.
+        Score is comuputed as distance from interval :math:`[Q_{lower}; Q_{upper}]` divided
+        by interquartile range. :math:`score = distance(data, (lqv, uqv)) / iqr`.
         Score is inverted for scikit-learn compatibility
 
-        Args:
-            X (ArrayLike): shape (n_samples, 1) or (n_samples,) if `ensure_2d` is False
-                Input data
+        Parameters
+        ----------
+        X : ArrayLike
+            Input data of shape (n_samples, 1) or (n_samples,) if ``ensure_2d`` is False
 
-        Returns:
-            np.ndarray: shape (n_samples,)
-                The outlier score of the input samples. The lower, the more abnormal.
+        Returns
+        -------
+        numpy.ndarray
+            Shape (n_samples,). The outlier score of the input samples.
+            The lower, the more abnormal.
         """
-
         check_is_fitted(self, attributes=["lqv_", "uqv_", "iqr_"])
 
         raw_data = check_array(
@@ -108,14 +124,18 @@ class IQR(BaseEstimator, OutlierMixin):
     def predict(self, X: ArrayLike) -> np.ndarray:
         """Predict if samples are outliers or not
 
-        Samples with a score lower than `k` are considered to be  outliers.
+        Samples with a score lower than ``k`` are considered to be  outliers.
 
-        Args:
-            X (ArrayLike): shape (n_samples, n_features). Input data
-        Returns:
-            np.ndarray: shape (n_samples,) 1 for inlineres, -1 for outliers
+        Parameters
+        ----------
+        X : ArrayLike
+            Input data, shape (n_samples, n_features)
+
+        Returns
+        -------
+        numpy.ndarray
+            Shape (n_samples,) 1 for inlineres, -1 for outliers
         """
-
         scores = self.score_samples(X)
 
         return np.where(scores < -self.k, -1, 1)

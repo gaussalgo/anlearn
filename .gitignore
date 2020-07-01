@@ -13,6 +13,8 @@
 /Session.vim
 /.version
 /docs/_build/
+/docs/auto_examples/
+/docs/api_reference/
 .vscode/
 datasets/
 site/

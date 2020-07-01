@@ -33,7 +33,7 @@ pytest:
 	pytest -v --color=yes --durations=20 --doctest-modules --cov "$(PACKAGE_NAME)" "$${MODULE_PATH}" tests
 
 docs:
-	mkdocs build --clean
+	make -C docs html
 
 rtfm: docs
 	xdg-open docs/_build/html/index.html

@@ -206,6 +206,17 @@ class LODA(BaseEstimator, OutlierMixin):
 
         return self
 
+    def __log_prob(self, X: ArrayLike) -> np.ndarray:
+        check_is_fitted(self, attributes=["projections_", "hists_"])
+
+        w_X = X @ self.projections_.T
+
+        X_prob = np.array(
+            [hist.predict_proba(w_x) for hist, w_x in zip(self.hists_, w_X.T)]
+        )
+
+        return np.log(X_prob)
+
     def score_samples(self, X: ArrayLike) -> np.ndarray:
         """Anomaly scores for samples
 
@@ -225,13 +236,9 @@ class LODA(BaseEstimator, OutlierMixin):
             The anomaly score of the input samples. The lower, the more abnormal.
             Shape (n_samples,)
         """
-        check_is_fitted(self, attributes=["projections_", "hists_"])
+        X_log_prob = self.__log_prob(X)
 
-        w_X = X @ self.projections_.T
-
-        X_prob = [hist.predict_proba(w_x) for hist, w_x in zip(self.hists_, w_X.T)]
-
-        X_scores = np.mean(np.log(X_prob), axis=0)
+        X_scores = np.mean(X_log_prob, axis=0)
 
         return X_scores
 
@@ -256,3 +263,55 @@ class LODA(BaseEstimator, OutlierMixin):
         scores = self.score_samples(X)
 
         return np.where(scores < self.anomaly_threshold_, -1, 1)
+
+    def score_features(self, X: ArrayLike) -> np.ndarray:
+        r"""Feature importance
+
+        Feature importance is computed as a one-tailed two-sample t-test between
+        :math:`-log(\hat{p}_i)` from histograms on projections with and without a
+        specific feature. The higher the value is, the more important feature is.
+
+        See full description in **3.3  Explaining the cause of an anomaly** [1]_ for
+        more details.
+
+        Parameters
+        ----------
+        X : ArrayLike
+            input data, shape (n_samples, n_features)
+
+        Returns
+        -------
+        numpy.ndarray
+            Feature importance in anomaly detection.
+
+
+        Notes
+        -----
+
+        .. math::
+
+            t_j = \frac{\mu_j - \bar{\mu}_j}{
+                \sqrt{\frac{s^2_j}{|I_j|} + \frac{\bar{s}^2_j}{|\bar{I_j}|}}}
+
+
+        """
+        X_neg_log_prob = -self.__log_prob(X)
+
+        zero_projections = self.projections == 0
+
+        results = []
+        # t-test for every feature
+        for j_feature in range(self._shape[1]):
+            i_with_feature = X_neg_log_prob[~zero_projections[:, j_feature]]
+            i_wo_feature = X_neg_log_prob[zero_projections[:, j_feature]]
+
+            t_j = (
+                np.mean(i_with_feature, axis=0) - np.mean(i_wo_feature, axis=0)
+            ) / np.sqrt(
+                np.std(i_with_feature, axis=0) / i_with_feature.shape[0]
+                + np.std(i_wo_feature, axis=0) / i_wo_feature.shape[0]
+            )
+
+            results.append(t_j)
+
+        return np.vstack(results).T

@@ -189,7 +189,7 @@ class LODA(BaseEstimator, OutlierMixin):
 
         self._init_projections()
 
-        w_X = X @ self.projections_.T
+        w_X = raw_data @ self.projections_.T
 
         self.hists_ = []
         X_prob = []
@@ -209,7 +209,11 @@ class LODA(BaseEstimator, OutlierMixin):
     def __log_prob(self, X: ArrayLike) -> np.ndarray:
         check_is_fitted(self, attributes=["projections_", "hists_"])
 
-        w_X = X @ self.projections_.T
+        raw_data = check_array(
+            X, accept_sparse=False, dtype="numeric", force_all_finite=True
+        )
+
+        w_X = raw_data @ self.projections_.T
 
         X_prob = np.array(
             [hist.predict_proba(w_x) for hist, w_x in zip(self.hists_, w_X.T)]
@@ -297,7 +301,7 @@ class LODA(BaseEstimator, OutlierMixin):
         """
         X_neg_log_prob = -self.__log_prob(X)
 
-        zero_projections = self.projections == 0
+        zero_projections = self.projections_ == 0
 
         results = []
         # t-test for every feature
@@ -308,8 +312,8 @@ class LODA(BaseEstimator, OutlierMixin):
             t_j = (
                 np.mean(i_with_feature, axis=0) - np.mean(i_wo_feature, axis=0)
             ) / np.sqrt(
-                np.std(i_with_feature, axis=0) / i_with_feature.shape[0]
-                + np.std(i_wo_feature, axis=0) / i_wo_feature.shape[0]
+                np.var(i_with_feature, axis=0) / i_with_feature.shape[0]
+                + np.var(i_wo_feature, axis=0) / i_wo_feature.shape[0]
             )
 
             results.append(t_j)

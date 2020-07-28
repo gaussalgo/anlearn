@@ -1,5 +1,5 @@
 PIP_COMPILE_FLAGS = -U --generate-hashes --build-isolation
-PYTHON_SOURCES = anlearn tests setup.py
+PYTHON_SOURCES = anlearn tests examples setup.py
 PACKAGE_NAME = anlearn
 REQUIREMENTS = requirements/requirements
 
@@ -19,10 +19,10 @@ flake8:
 	flake8 $(PYTHON_SOURCES)
 
 isort:
-	isort -rc $(PYTHON_SOURCES)
+	isort $(PYTHON_SOURCES)
 
 isort-check:
-	isort --check --diff -rc $(PYTHON_SOURCES)
+	isort --check --diff $(PYTHON_SOURCES)
 
 mypy:
 	mypy $(PYTHON_SOURCES)
@@ -54,9 +54,5 @@ requirements-3.8:
 	@echo "# Please seat back and relax, this may take some time. :)"
 	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.8.txt setup.py
 	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.8-dev.txt $(REQUIREMENTS)-dev.in
-
-requirements-notebook:
-	@echo "# Please seat back and relax, this may take some time. :)"
-	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-notebook.txt $(REQUIREMENTS)-notebook.in
 
 .PHONY: default fmt check black black-check flake8 mypy pytest docs rtfm requirements

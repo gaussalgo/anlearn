@@ -17,6 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 import sys
+import warnings
 
 from pkg_resources import get_distribution
 
@@ -82,6 +83,13 @@ sphinx_gallery_conf = {
     "doc_module": ("anlearn",),
 }
 
+warnings.filterwarnings(
+    "ignore",
+    category=UserWarning,
+    message="Matplotlib is currently using agg, which is a"
+    " non-GUI backend, so cannot show the figure.",
+)
+
 # autodoc_default_options = {"members": True, "inherited-members": True}
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -94,4 +102,5 @@ intersphinx_mapping = {
     "numpy": ("https://docs.scipy.org/doc/numpy/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "sklearn": ("http://scikit-learn.org/stable/", None),
+    "umap": ("https://umap-learn.readthedocs.io/en/latest/", None),
 }

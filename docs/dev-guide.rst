@@ -6,7 +6,7 @@ Tools
 
 As anlearn developers, we're using these tools.
 
-* Code formating: black_, isort_  
+* Code formating: black_, isort_
 * Linting: flake8_, mypy_
 * Requirements: pip-tools_
 * Testing: pytest_

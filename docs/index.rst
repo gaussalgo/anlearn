@@ -39,5 +39,5 @@ GNU Lesser General Public License v3 or later (LGPLv3+)
 
 anlearn  Copyright (C) 2020  Gauss Algorithmic a.s.
 
-This package is in alpha staten and comes with ABSOLUTELY NO WARRANTY.
+This package is in alpha state and comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to use, redistribute it and contribute under certain conditions of it's license.

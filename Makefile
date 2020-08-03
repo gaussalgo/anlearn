@@ -19,18 +19,18 @@ flake8:
 	flake8 $(PYTHON_SOURCES)
 
 isort:
-	isort -rc $(PYTHON_SOURCES)
+	isort $(PYTHON_SOURCES)
 
 isort-check:
-	isort --check --diff -rc $(PYTHON_SOURCES)
+	isort --check --diff $(PYTHON_SOURCES)
 
 mypy:
 	mypy $(PYTHON_SOURCES)
 
+pytest: export MODULE_PATH = $(shell python3 -c 'import $(PACKAGE_NAME); import os; print(os.path.dirname($(PACKAGE_NAME).__file__))')
 pytest:
 	# run doctests on the installed Python modules instead of the source tree
-	MODULE_PATH="$(shell python3 -c 'import $(PACKAGE_NAME); import os; print(os.path.dirname($(PACKAGE_NAME).__file__))')"
-	pytest -v --color=yes --durations=20 --doctest-modules --cov "$(PACKAGE_NAME)" "$${MODULE_PATH}" tests
+	pytest -v --color=yes --durations=20 --doctest-modules --cov "$(PACKAGE_NAME)" "$(MODULE_PATH)" tests
 
 docs:
 	make -C docs html
@@ -54,9 +54,5 @@ requirements-3.8:
 	@echo "# Please seat back and relax, this may take some time. :)"
 	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.8.txt setup.py
 	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.8-dev.txt $(REQUIREMENTS)-dev.in
-
-requirements-notebook:
-	@echo "# Please seat back and relax, this may take some time. :)"
-	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-notebook.txt $(REQUIREMENTS)-notebook.in
 
 .PHONY: default fmt check black black-check flake8 mypy pytest docs rtfm requirements

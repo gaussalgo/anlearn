@@ -3,7 +3,7 @@ repos:
     hooks:
       - id: isort
         name: isort
-        entry: isort -rc anlearn tests setup.py
+        entry: isort anlearn tests setup.py
         language: system
         types: [python]
       - id: black

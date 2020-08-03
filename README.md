@@ -1,4 +1,7 @@
 ![anomaly-learn-with-text](https://raw.githubusercontent.com/gaussalgo/anlearn/master/docs/img/anomaly-learn-with-text.png)
+
+[![PyPI version](https://badge.fury.io/py/anlearn.svg)](https://badge.fury.io/py/anlearn) [![Documentation Status](https://readthedocs.org/projects/anlearn/badge/?version=latest)](https://anlearn.readthedocs.io/en/latest/?badge=latest) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
+
 # anlearn - Anomaly learn
 
 anlearn is a python package that aims to implement multiple state-of-the-art anomaly detection methods in familiar scikit-learn API.
@@ -66,3 +69,6 @@ This is free software, and you are welcome to use, redistribute it, and contribu
 [scikit-learn]: https://github.com/scikit-learn/scikit-learn
 [numpy]: https://github.com/numpy/numpy
 [scipy]: https://github.com/scipy/scipy
+
+# Code of Conduct
+[Code of Conduct](https://github.com/gaussalgo/anlearn/blob/master/CODE_OF_CONDUCT.md)

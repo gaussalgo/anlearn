@@ -56,7 +56,7 @@ python setup.py install
 ```
 
 ## Documentation
-[docs](https://gaussalgo.github.io/anlearn/)
+[docs](https://anlearn.readthedocs.io/en/latest/)
 
 ## License
 GNU Lesser General Public License v3 or later (LGPLv3+)

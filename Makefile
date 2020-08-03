@@ -54,5 +54,6 @@ requirements-3.8:
 	@echo "# Please seat back and relax, this may take some time. :)"
 	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.8.txt setup.py
 	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.8-dev.txt $(REQUIREMENTS)-dev.in
+	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.8-docs.txt $(REQUIREMENTS)-docs.in
 
 .PHONY: default fmt check black black-check flake8 mypy pytest docs rtfm requirements

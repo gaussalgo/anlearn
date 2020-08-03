@@ -41,6 +41,19 @@ class IQR(BaseEstimator, OutlierMixin):
     iqr_ : float
         Interquartile range, :attr:`uqv_` - :attr:`lqv_`
 
+    Example
+    -------
+    >>> import numpy as np
+    >>> from anlearn.stats import IQR
+    >>> X = np.hstack([[-7,-4], np.arange(5), [10, 15]])
+    >>> iqr = IQR(ensure_2d=False)
+    >>> iqr.fit(X)
+    IQR(ensure_2d=False)
+    >>> iqr.predict(X)
+    array([-1,  1,  1,  1,  1,  1,  1,  1, -1])
+    >>> iqr.score_samples(X)
+    array([-1.75, -1.  , -0.  , -0.  , -0.  , -0.  , -0.  , -1.5 , -2.75])
+
     Raises
     ------
     ValueError

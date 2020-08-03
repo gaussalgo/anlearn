@@ -8,7 +8,8 @@ from sklearn.utils.validation import check_is_fitted
 from ._typing import ArrayLike
 
 
-class Histogram:
+# There is no DensityEstimationMixin in scikit-learn
+class Histogram(BaseEstimator):
     """Histogram model
 
     Histogram model based on :obj:`scipy.stats.rv_histogram`.
@@ -99,7 +100,7 @@ class LODA(BaseEstimator, OutlierMixin):
         See :obj:`numpy.histogram_bin_edges` bins for more details, by default "auto"
     q : float, optional
         Quantile for compution threshold from training data scores.
-        This threshold is used for `predict` method., by default 0.05
+        This threshold is used for `predict` method, by default 0.05
     random_state : Optional[int], optional
         Random seed used for stochastic parts., by default None
     n_jobs : Optional[int], optional
@@ -115,6 +116,17 @@ class LODA(BaseEstimator, OutlierMixin):
         Histograms on random projections, shape (n_estimators,)
     anomaly_threshold_ : float
         Treshold for :meth:`predict` function
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> from anlearn.loda import LODA
+    >>> X = np.array([[0, 0], [0.1, -0.2], [0.3, 0.2], [0.2, 0.2], [-5, -5], [0.6, 0.7]])
+    >>> loda = LODA(n_estimators=10, bins=10, random_state=42)
+    >>> loda.fit(X)
+    LODA(bins=10, n_estimators=10, random_state=42)
+    >>> loda.predict(X)
+    array([ 1,  1,  1,  1, -1,  1])
 
     References
     ----------
@@ -181,9 +193,7 @@ class LODA(BaseEstimator, OutlierMixin):
         LODA
             Fitted estimator
         """
-        raw_data = check_array(
-            X, accept_sparse=False, dtype="numeric", force_all_finite=True
-        )
+        raw_data = self.__check_array(X)
 
         self._shape = raw_data.shape
 
@@ -206,12 +216,15 @@ class LODA(BaseEstimator, OutlierMixin):
 
         return self
 
+    def __check_array(self, X: ArrayLike) -> np.ndarray:
+        return check_array(
+            X, accept_sparse=True, dtype="numeric", force_all_finite=True
+        )
+
     def __log_prob(self, X: ArrayLike) -> np.ndarray:
         check_is_fitted(self, attributes=["projections_", "hists_"])
 
-        raw_data = check_array(
-            X, accept_sparse=False, dtype="numeric", force_all_finite=True
-        )
+        raw_data = self.__check_array(X)
 
         w_X = raw_data @ self.projections_.T
 

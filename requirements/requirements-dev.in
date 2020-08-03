@@ -11,5 +11,5 @@ sphinx-rtd-theme
 sphinx_gallery
 matplotlib
 pandas
-umap
+umap-learn
 pillow

@@ -6,10 +6,3 @@ pre-commit
 pip-tools
 pytest
 pytest-cov
-sphinx
-sphinx-rtd-theme
-sphinx_gallery
-matplotlib
-pandas
-umap-learn
-pillow

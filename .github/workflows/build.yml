@@ -136,7 +136,7 @@ jobs:
           PACKAGE_VERSION=$(cat dist/.version)
           pip install -r "requirements/requirements-${PYTHON_VERSION}.txt"
           pip install "dist/anlearn-${PACKAGE_VERSION}.tar.gz"
-          pip install -r "requirements/requirements-${PYTHON_VERSION}-dev.txt"
+          pip install -r "requirements/requirements-${PYTHON_VERSION}-docs.txt"
       - name: Build pages
         run: make docs
       - name: Deploy to GitHub Pages

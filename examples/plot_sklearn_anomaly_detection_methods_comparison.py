@@ -2,11 +2,9 @@
 Comparison of scikit-learn anomaly detection methods and LODA
 =============================================================
 
-This examples is based on scikit-learn comparison of outlier detection methods [2]_.
-
+Comparison of LODA [1]_ and scikit-learn anomaly detection methods [2]_.
 
 """
-
 # %%
 
 # Original Authors: Alexandre Gramfort <alexandre.gramfort@inria.fr>
@@ -49,7 +47,7 @@ anomaly_algorithms = [
         "Local Outlier Factor",
         LocalOutlierFactor(n_neighbors=35, contamination=outliers_fraction),
     ),
-    ("LODA", LODA(n_estimators=1000, q=outliers_fraction, random_state=42)),
+    ("LODA", LODA(n_estimators=100, q=outliers_fraction, bins=10, random_state=42)),
 ]
 
 # Define datasets

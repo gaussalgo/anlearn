@@ -1,12 +1,25 @@
 """
-Explaining the cause of an anomaly using LODA on Zoo dataset
-============================================================
-In this example we're using LODA [1]_ on Zoo dataset [3]_ to show how we could
-explain the cause of an anomaly.
+LODA: Explaining the cause of an anomaly on Zoo dataset
+=======================================================
 
+
+The knowledge that an example is anomalous just the first part of the whole anomaly detection pipeline.
+Without investigating further, I would consider this information almost useless. Lucky for us, LODA has a built-in way to
+get a little bit more information about why a particular example is viewed as an anomaly. With the smart usage of sparse projections,
+we could compute a one-tailed two-sample t-test between probabilities from histograms on projections with and without aspecific features.
+Casually speaking, if histograms using a particular feature have statistically higher anomaly scores than ones without it, we should have a closer look at it. Also, it has a higher time complexity than scoring samples because we need to evaluate every feature separately.
+
+
+Of course, we should not consider this to be the ground truth for explaining the cause of an anomaly.
+That is a complicated process requiring more analysis with in-depth knowledge of data.
+LODA gives us only a good starting point to lead our investigation.
+If you want to see a full mathematical explanation read section **3.3 Explaining the cause of an anomaly** [1]_ in the original article.
+
+To show this feature of LODA, we created a simple example using the Zoo dataset from the UCI Machine Learning Repository [3]_.
+It contains different animal species and a summary of their characteristics (hair, feathers, eggs, milk, airborne, aquatic, etc.).
+We have chosen it because it's small, simple, and features are easily understandable (cat has for legs :) ...)
+First of all, we transform this dataset using UMAP (:obj:`umap.UMAP`) [2]_ to show in two dimensions.
 """
-
-
 # %%
 
 # Author: Ondrej Kurák kurak@gaussalgo.com
@@ -18,6 +31,13 @@ import pandas as pd
 from umap import UMAP
 
 from anlearn.loda import LODA
+from anlearn.utils import fetch_dataset
+
+fetch_dataset(
+    "../datasets/zoo.data",
+    "https://archive.ics.uci.edu/ml/machine-learning-databases/zoo/zoo.data",
+)
+
 
 frame = pd.read_csv(
     "../datasets/zoo.data",
@@ -125,7 +145,6 @@ print(frame)
 # %%
 # Data visualization
 # ------------------
-# For data visualization we're using UMAP [2]_ to transform data to two dimensional space.
 
 X = frame.values[:, :-1]
 
@@ -157,8 +176,18 @@ plt.show()
 # %%
 # Explaining the cause of an anomaly
 # ----------------------------------
+#
+# Once we get anomaly scores and importance of each feature, we could investigate further.
+# We'll choose the five most anomalous animals. For example, we'll take a closer look at honeybee.
+# It has a quite high score, and the most significant features are venomous (1.91), hair (1.55), breathes (1.28), and domestic (0.97).
+# If we consider the composition of our dataset, there are no other venomous animals that are domestic, so it does seem right.
+# We could find explanations like this for every other animal in the top five. Octopus has eight legs; sea wasp does have almost
+# none of the features in the dataset, etc. So could we tell that these are the real reasons why these animals are unusual? Yes and no.
+# Yes, this is why LODA sees them as anomalies considering our data, but without a review from a domain expert,
+# we must be careful about such a statement.
+# Also, consider the fact that this dataset is small, oversimplified, with just a limited number of features.
 
-loda = LODA(n_estimators=100, random_state=42)
+loda = LODA(n_estimators=100, bins=100, random_state=42)
 loda.fit(X)
 
 scores = loda.score_samples(X)
@@ -205,6 +234,13 @@ for animal, score, feature_score in zip(
         frame.columns[srt][:4], np.array(animal[1:])[srt], feature_score[srt]
     ):
         print(f"\t{feature} {value} ({importance:.2f})")
+
+
+# %%
+# Summary
+# -------
+# To sum it up. LODA has a really powerful tool to explain the cause of an anomaly.
+# It is more resource consuming than scoring samples. We should take a closer look at anomalies if we want to tell the real reason.
 
 
 # %%

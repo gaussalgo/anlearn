@@ -25,11 +25,10 @@
    {% block classes %}
    {% if classes %}
 
-
-
    {% for item in classes %}
-   {{ item }}
-   {{ underline }}
+   {{fullname}}.{{item}}
+   {{ underline }}{{ underline }}
+
    .. autoclass:: {{ item }}
       :members:
       :inherited-members:

@@ -208,6 +208,37 @@ To sum it up. LODA has a really powerful tool to explain the cause of an anomaly
 It is more resource consuming than scoring samples. We should take a closer look at anomalies if we want to tell the real reason.
 
 
+Using LODA on large datasets
+----------------------------
+
+In previous sections, we have seen that LODA is fully capable of getting similar results to more complex anomaly detection methods. Now we could take full advantage of LODA's low time and space complexity and use it on some more massive datasets.
+
+We'll use Credit Card Fraud Detection dataset from the Machine Learning Group of Université Libre de Bruxelles [4]_ (it's available on Kaggle [5]_). 
+This dataset consists of credit card transactions with 492 frauds out of 284,807 transactions. Features are a byproduct of PCA transformation without any additional information due to confidentiality issues (:ref:`sphx_glr_auto_examples_loda_large_dataset.py`).
+
+First of all, we'll visualize the entire dataset in low dimensional space to get an overview. We'll transform data using UMAP [2]_ and then plot results.
+
+.. figure:: /img/loda/loda_fraud_umap.png
+    :alt: LODA: large dataset transformed by UMAP
+
+At first sight at this visualization, we could see some apparent clusters. Some of them even including a lot of fraud transactions. But this could be misleading due to significant overplotting. We'll try to solve this issue by using a more meaningful projection created by Datashader [6]_.
+
+.. figure:: /img/loda/loda_fraud_datashader.png
+    :alt: LODA: large dataset transformed by UMAP and Datashader
+
+Once we have some clues about how the dataset looks, let's try to detect some fraud transactions. Because of its size, we'll use only LODA and isolation forest as anomaly detection methods. For comparing them, we'll use the area under the ROC curve.
+
+.. figure:: /img/loda/loda_fraud_roc.png
+    :alt: LODA: large dataset ROC curve
+
+As we can see, both methods performed very well (with the LODA slightly better). The low time complexity kicks in once we look at the training/predicting time for both detectors. It took LODA only 1/4 of the isolation forest's time to score 284,807 samples. It does not seem like such a big difference, but once we go up to millions of transactions, it could be a game-changer.
+
+To finalize this section, let's make another plot using Datashader and anomaly scores from LODA.
+
+.. figure:: /img/loda/loda_fraud_datashader_anomaly.png
+    :alt: LODA: large dataset transformed by UMAP and Datashader
+
+
 References
 ----------
 .. [1] Pevný, T. Loda: Lightweight on-line detector of anomalies. Mach Learn 102, 275–304 (2016).
@@ -217,6 +248,9 @@ References
 .. [3] Dua, D. and Graff, C. (2019). UCI Machine Learning Repository
        [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
        <https://archive.ics.uci.edu/ml/datasets/Zoo>
+.. [4] Machine Learning Group of Université Libre de Bruxelles <http://mlg.ulb.ac.be>
+.. [5] Kaggle: Credit Card Fraud Detection <https://www.kaggle.com/mlg-ulb/creditcardfraud>
+.. [6] HoloViz Datashader <https://datashader.org/>
 
 .. minigallery:: anlearn.loda.LODA
     :add-heading:

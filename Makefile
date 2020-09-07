@@ -10,22 +10,22 @@ check: black-check flake8 mypy pytest isort-check
 fmt: black
 
 black:
-	black $(PYTHON_SOURCES)
+	black $(PYTHON_SOURCES) examples
 
 black-check:
-	black --check --diff $(PYTHON_SOURCES)
+	black --check --diff $(PYTHON_SOURCES) examples
 
 flake8:
-	flake8 $(PYTHON_SOURCES)
+	flake8 $(PYTHON_SOURCES) examples
 
 isort:
-	isort $(PYTHON_SOURCES)
+	isort $(PYTHON_SOURCES) examples
 
 isort-check:
-	isort --check --diff $(PYTHON_SOURCES)
+	isort --check --diff $(PYTHON_SOURCES) examples
 
 mypy:
-	mypy $(PYTHON_SOURCES)
+	mypy $(PYTHON_SOURCES) examples
 
 pytest: export MODULE_PATH = $(shell python3 -c 'import $(PACKAGE_NAME); import os; print(os.path.dirname($(PACKAGE_NAME).__file__))')
 pytest:

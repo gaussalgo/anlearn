@@ -2,8 +2,16 @@ anlearn - Anomaly learn
 =======================
 .. image:: img/anomaly-learn-with-text.png
 
-anlearn is a python package that aims to implement multiple state-of-the-art anomaly detection methods in familiar scikit-learn API.
+In `Gauss Algorithmic`_, we're working on many anomaly/fraud detection projects using open-source tools. We decided to put our two cents in and  "tidy up" some of our code snippets, add documentation, examples, and release them as an open-source package. So let me introduce **anlearn**. It aims to offer multiple interesting anomaly detection methods in familiar scikit-learn_ API so you could quickly try some anomaly detection experiments yourself.
 
+So far, this package is an alpha state and ready for your experiments.
+
+Do you have any questions, suggestions, or want to chat? Feel free to contact us via Github_, Gitter_, or email.
+
+.. _Gauss Algorithmic: https://www.gaussalgo.com/en/
+.. _scikit-learn: https://github.com/scikit-learn/scikit-learn
+.. _Github: https://github.com/gaussalgo/anlearn
+.. _Gitter: https://gitter.im/gaussalgo-anlearn/community
 
 .. toctree::
    :maxdepth: 2

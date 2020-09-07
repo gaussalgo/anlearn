@@ -76,10 +76,7 @@ plt.show()
 # due to significant overplotting. We'll try to solve this issue by
 # using a more meaningful projection created by Datashader [6]_.
 
-shader_data = pd.DataFrame(
-    transformed,
-    columns=["x", "y"],
-)
+shader_data = pd.DataFrame(transformed, columns=["x", "y"],)
 
 agg = ds.Canvas(plot_width=1000, plot_height=800).points(shader_data, "x", "y")
 

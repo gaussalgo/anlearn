@@ -1,4 +1,5 @@
 *.pyc
+.direnv/
 /build/
 /dist/
 /*.eggs/

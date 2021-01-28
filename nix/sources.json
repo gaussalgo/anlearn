@@ -1,14 +1,26 @@
 {
-    "nixpkgs": {
-        "branch": "nixos-unstable",
-        "description": "A read-only mirror of NixOS/nixpkgs tracking the released channels. Send issues and PRs to",
-        "homepage": "https://github.com/NixOS/nixpkgs",
-        "owner": "NixOS",
-        "repo": "nixpkgs-channels",
-        "rev": "c59ea8b8a0e7f927e7291c14ea6cd1bd3a16ff38",
-        "sha256": "1ak7jqx94fjhc68xh1lh35kh3w3ndbadprrb762qgvcfb8351x8v",
+    "niv": {
+        "branch": "master",
+        "description": "Easy dependency management for Nix projects",
+        "homepage": "https://github.com/nmattia/niv",
+        "owner": "nmattia",
+        "repo": "niv",
+        "rev": "3cd7914b2c4cff48927e11c216dadfab7d903fe5",
+        "sha256": "1agq4nvbhrylf2s77kb4xhh9k7xcwdwggq764k4jgsbs70py8cw3",
         "type": "tarball",
-        "url": "https://github.com/NixOS/nixpkgs-channels/archive/c59ea8b8a0e7f927e7291c14ea6cd1bd3a16ff38.tar.gz",
+        "url": "https://github.com/nmattia/niv/archive/3cd7914b2c4cff48927e11c216dadfab7d903fe5.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs": {
+        "branch": "nixpkgs-unstable",
+        "description": "Nix Packages collection",
+        "homepage": "",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "6834d03bb5614e0bf3b5f272728fdef25e8397c9",
+        "sha256": "0dl7hd94zi0dqj2c3nqg3wdi3fk57bp3lk39ykpz39ha7j39lnl0",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/6834d03bb5614e0bf3b5f272728fdef25e8397c9.tar.gz",
         "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
     }
 }

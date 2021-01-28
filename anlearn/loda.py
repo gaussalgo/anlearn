@@ -163,7 +163,7 @@ class LODA(BaseEstimator, OutlierMixin):
     def _init_projections(self) -> None:
         self.projections_ = np.zeros((self.n_estimators, self._shape[1]))
 
-        non_zero_w = np.rint(self._shape[1] * (self._shape[1] ** (-1 / 2))).astype(int)
+        non_zero_w = np.rint(np.sqrt(self._shape[1])).astype(int)
 
         rnd = check_random_state(self.random_state)
 

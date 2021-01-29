@@ -1,0 +1,73 @@
+[tool.poetry]
+name = "anlearn"
+version = "0.1.2"
+description = "Anomaly learn - the anomaly detection package"
+authors = ["Ondrej Kurák <kurak@gaussalgo.com>"]
+license = "LGPL-3.0-or-later"
+readme = "README.md"
+homepage = "https://github.com/gaussalgo/anlearn"
+documentation = "https://anlearn.readthedocs.io/en/latest/"
+keywords = ["Anomaly detection", "Outlier detection"]
+classifiers = [
+	"Intended Audience :: Developers",
+	"Intended Audience :: Education",
+	"Intended Audience :: Science/Research",
+	"License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
+	"Operating System :: OS Independent",
+	"Topic :: Education",
+	"Topic :: Scientific/Engineering",
+	"Topic :: Software Development",
+]
+include = ["COPYING", "COPYING.LESSER", "CODE_OF_CONDUCT.md"]
+
+[tool.poetry.dependencies]
+python = "^3.6.1"
+scikit-learn = "^0.23.0"
+numpy = "^1.19.0"
+scipy = "^1.5.0"
+
+matplotlib = {version = "^3.3.4", optional = true}
+pandas = {version = "^1.0.0", optional = true}
+Pillow = {version = "^8.1.0", optional = true}
+Sphinx = {version = "^3.4.3", optional = true}
+sphinx-rtd-theme = {version = "^0.5.1", optional = true}
+sphinx-gallery = {version = "^0.8.2", optional = true}
+umap-learn = {version = "^0.5.0", optional = true}
+
+[tool.poetry.extras]
+docs = [
+	"matplotlib",
+	"pandas",
+	"Pillow",
+	"Sphinx",
+	"sphinx-rtd-theme",
+	"sphinx-gallery",
+	"umap-learn",
+]
+
+[tool.poetry.dev-dependencies]
+black = "^20.8b1"
+flake8 = "^3.8.4"
+mypy = "^0.800"
+isort = "^5.7.0"
+pre-commit = "^2.10.0"
+pytest = "^6.2.2"
+pytest-cov = "^2.11.1"
+dunamai = "^1.5.4"
+tox = "^3.21.3"
+
+[tool.pytest.ini_options]
+testpaths = ["src", "tests"]
+addopts = "--doctest-modules"
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 88
+known_first_party = "anlearn"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

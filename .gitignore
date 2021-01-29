@@ -1,5 +1,7 @@
 *.pyc
 .direnv/
+.DS_Store
+.tox
 /build/
 /dist/
 /*.eggs/

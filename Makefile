@@ -1,36 +1,28 @@
-PIP_COMPILE_FLAGS = -U --generate-hashes --build-isolation
-PYTHON_SOURCES = anlearn tests setup.py
-PACKAGE_NAME = anlearn
-REQUIREMENTS = requirements/requirements
+PYTHON_SOURCES = anlearn tests examples
 
 default: check
 
-check: black-check flake8 mypy pytest isort-check
+check:
+	tox -p
 
-fmt: black
+fmt: isort black
 
 black:
-	black $(PYTHON_SOURCES) examples
+	black $(PYTHON_SOURCES)
+isort:
+	isort $(PYTHON_SOURCES)
 
-black-check:
-	black --check --diff $(PYTHON_SOURCES) examples
+fmt-check:
+	tox -e format
 
 flake8:
-	flake8 $(PYTHON_SOURCES) examples
-
-isort:
-	isort $(PYTHON_SOURCES) examples
-
-isort-check:
-	isort --check --diff $(PYTHON_SOURCES) examples
+	tox -e flake8
 
 mypy:
-	mypy $(PYTHON_SOURCES) examples
+	tox -e mypy
 
-pytest: export MODULE_PATH = $(shell python3 -c 'import $(PACKAGE_NAME); import os; print(os.path.dirname($(PACKAGE_NAME).__file__))')
 pytest:
-	# run doctests on the installed Python modules instead of the source tree
-	pytest -v --color=yes --durations=20 --doctest-modules --cov "$(PACKAGE_NAME)" "$(MODULE_PATH)" tests
+	tox -e py36,py37,py38 -p
 
 docs:
 	make -C docs html
@@ -38,22 +30,7 @@ docs:
 rtfm: docs
 	xdg-open docs/_build/html/index.html
 
-requirements: requirements-3.6 requirements-3.7 requirements-3.8
+requirements:
+	poetry update
 
-requirements-3.6:
-	@echo "# Please seat back and relax, this may take some time. :)"
-	python3.6 -m piptools compile $(PIP_COMPILE_FLAGS) -o $(REQUIREMENTS)-3.6.txt setup.py
-	python3.6 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.6-dev.txt $(REQUIREMENTS)-dev.in
-
-requirements-3.7:
-	@echo "# Please seat back and relax, this may take some time. :)"
-	python3.7 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.7.txt setup.py
-	python3.7 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.7-dev.txt $(REQUIREMENTS)-dev.in
-
-requirements-3.8:
-	@echo "# Please seat back and relax, this may take some time. :)"
-	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.8.txt setup.py
-	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.8-dev.txt $(REQUIREMENTS)-dev.in
-	python3.8 -m piptools compile $(PIP_COMPILE_FLAGS) -o  $(REQUIREMENTS)-3.8-docs.txt $(REQUIREMENTS)-docs.in
-
-.PHONY: default fmt check black black-check flake8 mypy pytest docs rtfm requirements
+.PHONY: default fmt check black fmt-check flake8 mypy pytest docs rtfm requirements

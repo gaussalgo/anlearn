@@ -1,8 +1,0 @@
-black
-flake8
-mypy
-isort
-pre-commit
-pip-tools
-pytest
-pytest-cov

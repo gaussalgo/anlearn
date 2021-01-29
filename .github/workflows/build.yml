@@ -29,12 +29,13 @@ jobs:
           key: ${{ runner.os }}-pip-3.8
           restore-keys: |
             ${{ runner.os }}-pip-
-      - name: Upgrade pip
-        run: pip install --upgrade pip wheel setuptools
+      - uses: Gr1N/setup-poetry@v4
+      - name: Install dunamai
+        run: pip install dunamai
       - name: Build package
         run: |
-          python3 setup.py sdist
-          python3 setup.py bdist_wheel
+          dunamai from git | tee .version | xargs poetry version
+          poetry build -vvv
           mv .version dist
       - name: Store build
         uses: actions/upload-artifact@v2
@@ -57,18 +58,13 @@ jobs:
           key: ${{ runner.os }}-pip-3.8
           restore-keys: |
             ${{ runner.os }}-pip-
-      - name: Upgrade pip
-        run: pip install --upgrade pip wheel setuptools
-      - name: Install dependencies
-        run: pip install -r requirements/requirements-3.8-dev.txt
-      - name: black
-        run: make black-check
-      # - name: isort
-      #   run: make isort-check
-      - name: flake8
-        run: make flake8
-      - name: mypy
-        run: make mypy
+      - name: Upgrade pip & install tox
+        run: |
+          python -VV
+          python -m pip install --upgrade pip
+          pip install tox
+      - name: Format check
+        run: tox -e format,flake8,mypy -p
   tests:
     name: pytest
     runs-on: ubuntu-latest
@@ -94,19 +90,14 @@ jobs:
           key: ${{ runner.os }}-pip-${{ matrix.python-version }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      - name: Upgrade pip
+      - name: Upgrade pip & install tox
         run: |
           python -VV
-          pip install --upgrade pip wheel setuptools
+          python -m pip install --upgrade pip
+          pip install tox tox-gh-actions
       - name: Install dependencies
-        run: |
-          PYTHON_VERSION=$(python -c 'import sys; print(*sys.version_info[:2], sep=".")')
-          PACKAGE_VERSION=$(cat dist/.version)
-          pip install -r "requirements/requirements-${PYTHON_VERSION}.txt"
-          pip install "dist/anlearn-${PACKAGE_VERSION}.tar.gz"
-          pip install -r "requirements/requirements-${PYTHON_VERSION}-dev.txt"
-      - name: Run tests
-        run: make pytest
+        run: tox
+
   pages:
     name: Build docs
     needs: [syntax_check, tests, build_package]
@@ -128,15 +119,9 @@ jobs:
           key: ${{ runner.os }}-pip-3.8
           restore-keys: |
             ${{ runner.os }}-pip-
-      - name: Upgrade pip
-        run: pip install --upgrade pip wheel setuptools
+      - uses: Gr1N/setup-poetry@v4
       - name: Install dependencies
-        run: |
-          PYTHON_VERSION=$(python -c 'import sys; print(*sys.version_info[:2], sep=".")')
-          PACKAGE_VERSION=$(cat dist/.version)
-          pip install -r "requirements/requirements-${PYTHON_VERSION}.txt"
-          pip install "dist/anlearn-${PACKAGE_VERSION}.tar.gz"
-          pip install -r "requirements/requirements-${PYTHON_VERSION}-docs.txt"
+        run: poetry install --no-dev -E docs
       - name: Build pages
         run: make docs
   publish_package:

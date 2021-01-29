@@ -10,7 +10,7 @@ formats:
 python:
   version: 3.8
   install:
-    - requirements: requirements/requirements-3.8.txt
-    - requirements: requirements/requirements-3.8-docs.txt
     - method: pip
       path: .
+      extra_requires:
+              - docs

@@ -35,29 +35,15 @@ git clone https://github.com/gaussalgo/anlearn
 cd anlearn
 ```
 
-Installing requirements.
-
-```
-# Generated requirements for all supported python versions
-ls requirements/requirements-3.*.txt | grep -v dev
-requirements/requirements-3.6.txt
-requirements/requirements-3.7.txt
-requirements/requirements-3.8.txt
-pip install -r requirements/requirements-3.8.txt
-```
-or
-```
-pip install scikit-learn numpy scipy
-```
-
-Install `anlearn`.
+Instalil `anlearn`.
 ```
 pip install .
 ```
-or
+or by using [poetry]
 ```
-python setup.py install
+poetry install
 ```
+
 
 ## Documentation
 You can find documentation at Read the Docs: [docs](https://anlearn.readthedocs.io/en/latest/).
@@ -84,3 +70,4 @@ This is free software, and you are welcome to use, redistribute it, and contribu
 [Gitter]: https://gitter.im/gaussalgo-anlearn/community
 [Gauss Algorithmic]: https://www.gaussalgo.com/en/
 [GitHub]: https://github.com/gaussalgo/anlearn
+[poetry]: https://github.com/python-poetry/poetry

@@ -35,5 +35,6 @@ requirements:
 	poetry update
 	poetry export -f requirements.txt -o requirements.txt
 	poetry export --dev -f requirements.txt -o requirements-dev.txt
+	poetry export --extras doc -f requirements.txt -o docs/requirements.txt
 
 .PHONY: default fmt check black fmt-check flake8 mypy pytest docs rtfm requirements

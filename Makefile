@@ -31,6 +31,9 @@ rtfm: docs
 	xdg-open docs/_build/html/index.html
 
 requirements:
+	@echo "# Please seat back and relax, this may take some time. :)"
 	poetry update
+	poetry export -f requirements.txt -o requirements.txt
+	poetry export --dev -f requirements.txt -o requirements-dev.txt
 
 .PHONY: default fmt check black fmt-check flake8 mypy pytest docs rtfm requirements

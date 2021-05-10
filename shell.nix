@@ -6,6 +6,7 @@ mkShell {
   name = "anlearn-env";
   buildInputs = [
     python38
+    python38Packages.poetry
     python37
     python36
     glibcLocales

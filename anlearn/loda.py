@@ -60,7 +60,7 @@ class Histogram(BaseEstimator):
 
         self.pdf = np.hstack([0.0, pdf, 0.0])
         if self.return_min:
-            self.pdf[self.pdf <= 0] = np.finfo(np.float).eps
+            self.pdf[self.pdf <= 0] = np.finfo(np.float_).eps
 
         return self
 
@@ -210,7 +210,7 @@ class LODA(BaseEstimator, OutlierMixin):
             prob = new_hist.predict_proba(w_x)
             X_prob.append(prob)
 
-        X_scores = np.mean(np.log(X_prob), axis=0)
+        X_scores = np.mean(np.log(np.array(X_prob)), axis=0)
 
         self.anomaly_threshold_ = np.quantile(X_scores, self.q)
 

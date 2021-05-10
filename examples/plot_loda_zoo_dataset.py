@@ -31,39 +31,12 @@ import pandas as pd
 from umap import UMAP
 
 from anlearn.loda import LODA
-from anlearn.utils import fetch_dataset
-
-fetch_dataset(
-    "../datasets/zoo.data",
-    "https://archive.ics.uci.edu/ml/machine-learning-databases/zoo/zoo.data",
-)
-
 
 frame = pd.read_csv(
-    "../datasets/zoo.data",
-    names=[
-        "animals",
-        "hair",
-        "feathers",
-        "eggs",
-        "milk",
-        "airborne",
-        "aquatic",
-        "predator",
-        "toothed",
-        "backbone",
-        "breathes",
-        "venomous",
-        "fins",
-        "legs",
-        "tail",
-        "domestic",
-        "catsize",
-        "type",
-    ],
+    "https://raw.githubusercontent.com/sharmaroshan/Zoo-Dataset/master/zoo.csv",
 )
 
-frame.set_index("animals", inplace=True)
+frame.set_index("animal_name", inplace=True)
 
 print(frame)
 
@@ -115,10 +88,10 @@ print(frame)
 
 # 5. Number of Instances: 101
 
-# 6. Number of Attributes: 18 (animal name, 15 Boolean attributes, 2 numerics)
+# 6. Number of Attributes: 18 (animal_name, 15 Boolean attributes, 2 numerics)
 
 # 7. Attribute Information: (name of attribute and type of value domain)
-#    1. animal name:      Unique for each instance
+#    1. animal_name:      Unique for each instance
 #    2. hair		Boolean
 #    3. feathers		Boolean
 #    4. eggs		Boolean
@@ -135,7 +108,7 @@ print(frame)
 #   15. tail		Boolean
 #   16. domestic		Boolean
 #   17. catsize		Boolean
-#   18. type		Numeric (integer values in range [1,7])
+#   18. class_type		Numeric (integer values in range [1,7])
 
 # 8. Missing Attribute Values: None
 
@@ -159,8 +132,8 @@ plt.subplots_adjust(
 )
 
 
-for type in np.unique(frame["type"]):
-    selected = transformed[frame["type"] == type]
+for type in np.unique(frame["class_type"]):
+    selected = transformed[frame["class_type"] == type]
     plt.scatter(selected[:, 0], selected[:, 1], label=type)
 
 for name, x, y in zip(frame.index, transformed[:, 0], transformed[:, 1]):

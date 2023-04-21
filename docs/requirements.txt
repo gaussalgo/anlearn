@@ -1,6 +1,6 @@
-joblib==1.0.1; python_version >= "3.6" \
-    --hash=sha256:feeb1ec69c4d45129954f1b7034954241eedfd6ba39b5e9e4b6883be3332d5e5 \
-    --hash=sha256:9c17567692206d2f3fb9ecf5e991084254fe631665c450b443761c4186a613f7
+joblib==1.1.1; python_version >= "3.6" \
+    --hash=sha256:301f0375f49586a7effee3f6348c419d5765fca1c750186b20690a0d90b82900 \
+    --hash=sha256:f9d6c3cdf2a7778e9058e10e9dba028e47771a1a355e5768f46704bf05342eba
 numpy==1.19.5; python_version >= "3.6" \
     --hash=sha256:cc6bd4fd593cb261332568485e20a0712883cf631f6f5e8e86a52caa8b2b50ff \
     --hash=sha256:aeb9ed923be74e659984e321f609b9ba54a48354bfd168d21a2b072ed1e833ea \

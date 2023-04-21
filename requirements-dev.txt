@@ -102,9 +102,9 @@ iniconfig==1.1.1; python_version >= "3.6" and python_full_version < "3.0.0" or p
 isort==5.8.0; python_version >= "3.6" and python_version < "4.0" \
     --hash=sha256:2bb1680aad211e3c9944dbce1d4ba09a989f04e238296c87fe2139faa26d655d \
     --hash=sha256:0a943902919f65c5684ac4e0154b1ad4fac6dcaa5d9f3426b732f1c8b5419be6
-joblib==1.0.1; python_version >= "3.6" \
-    --hash=sha256:feeb1ec69c4d45129954f1b7034954241eedfd6ba39b5e9e4b6883be3332d5e5 \
-    --hash=sha256:9c17567692206d2f3fb9ecf5e991084254fe631665c450b443761c4186a613f7
+joblib==1.1.1; python_version >= "3.6" \
+    --hash=sha256:301f0375f49586a7effee3f6348c419d5765fca1c750186b20690a0d90b82900 \
+    --hash=sha256:f9d6c3cdf2a7778e9058e10e9dba028e47771a1a355e5768f46704bf05342eba
 mccabe==0.6.1; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" \
     --hash=sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42 \
     --hash=sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f
